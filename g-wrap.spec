@@ -1,9 +1,9 @@
-Summary:	A utility for automatically generating glue code to export C libraries to Guile Scheme and RScheme.
+Summary:	A utility for automatically generating glue code to export C libraries to Guile Scheme and RScheme
 Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
-Summary(pt_BR):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme.
+Summary(pt_BR): Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.1.10
-Release:	5
+Version:	1.3.2
+Release:	1
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -38,7 +38,7 @@ interface com os interpretadores guile e rscheme.
 %package devel
 Summary:	Headers for developing programs using g-wrap
 Summary(pl):	Pliki nag³ówkowe do rozwijnia programów z u¿yciem g-wrap
-Summary(pt_BR):	Arquivos de inclusão e bibliotecas para o g-wrap
+Summary(pt_BR): Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -56,12 +56,12 @@ headers for developing programs using g-wrap.
 Pliki nag³ówkowe do rozwijania programów z u¿yciem g-wrap.
 
 %description devel -l pt_BR
-Arquivos de inclusao e bibliotecas para o g-wrap
+Arquivos de inclusao e bibliotecas para o g-wrap.
 
 %package static
 Summary:	Static libraries for developing programs using g-wrap
 Summary(pl):	Biblioteki statyczne g-wrap
-Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com g-wrap
+Summary(pt_BR): Bibliotecas estáticas para desenvolvimento com g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -79,14 +79,19 @@ Static libraries for developing programs using g-wrap.
 Statyczne biblioteki g-wrap.
 
 %description static -l pt_BR
-Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap
+Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 
 %prep
 %setup -q
-%patch -p1
+%patch0 -p1
 
 %build
-%configure2_13
+rm -f missing
+libtoolize --copy --force
+aclocal
+autoconf
+automake -a -c
+%configure
 %{__make}
 
 %install
@@ -111,23 +116,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) %{_libdir}/lib*.la
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.la
-%{_datadir}/guile/g-wrap
-%{_datadir}/guile/g-wrap.scm
-%{_datadir}/guile/g-wrapped/*.scm
+%{_datadir}/guile/*
 
 %files devel
 %defattr(644,root,root,755)
 %doc *.gz
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/lib*.so
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
-%{_includedir}/*.h
+%attr(755,root,root) %{_libdir}/lib*.la
+%{_includedir}/g-wrap
+%{_aclocaldir}/*
 %{_infodir}/*info*gz
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
-%{_datadir}/guile/g-wrapped/lib*.a
