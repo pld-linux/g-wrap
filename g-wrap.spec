@@ -100,7 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) %{_libdir}/lib*.la
+%{_libdir}/lib*.la
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.la
 %{_datadir}/guile/g-wrap
