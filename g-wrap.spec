@@ -1,12 +1,17 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
+Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
 Name:		g-wrap
 Version:	1.1.10
 Release:	4
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
+Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
+Group(pt_BR):	Bibliotecas
+Group(ru):	âÉÂÌÉÏÔÅËÉ
+Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
 Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 BuildRequires:	guile-devel >= 1.4
@@ -19,28 +24,48 @@ This is a tool for specifying types, functions, and constants to
 import into a Scheme interpreter, and for generating code (in C) to
 interface these to the Guile and RScheme interpreters in particular.
 
+%description -l pl
+To jest narzêdzie do specyfikowania typów, funkcji i sta³ych dla
+interpretera Scheme i generowania kodu (w C) do udostêpnienia ich dla
+interpreterów Guile i RScheme.
+
 %package devel
-Summary:	headers for developing programs using g-wrap
+Summary:	Headers for developing programs using g-wrap
+Summary(pl):	Pliki nag³ówkowe do rozwijnia programów z u¿yciem g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 
 %description devel
 headers for developing programs using g-wrap.
+
+%description devel -l pl
+Pliki nag³ówkowe do rozwijania programów z u¿yciem g-wrap.
 
 %package static
 Summary:	Static libraries for developing programs using g-wrap
 Summary(pl):	Biblioteki statyczne g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 
 %description static
 Static libraries for developing programs using g-wrap.
+
+%description static -l pl
+Statyczne biblioteki g-wrap.
 
 %prep
 %setup -q
