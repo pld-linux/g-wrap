@@ -1,7 +1,7 @@
-diff -Nru g-wrap-0.9.6/doc/g-wrap.texi g-wrap-0.9.6.new/doc/g-wrap.texi
---- g-wrap-0.9.6/doc/g-wrap.texi	Wed Jun 21 23:42:12 2000
-+++ g-wrap-0.9.6.new/doc/g-wrap.texi	Sun Oct 29 09:07:03 2000
-@@ -41,10 +41,20 @@
+diff -Nur g-wrap-1.1.10/doc/g-wrap.texi g-wrap-1.1.10.new/doc/g-wrap.texi
+--- g-wrap-1.1.10/doc/g-wrap.texi	Mon Dec 11 22:03:59 2000
++++ g-wrap-1.1.10.new/doc/g-wrap.texi	Thu May 17 12:06:00 2001
+@@ -41,6 +41,16 @@
  approved by the author.
  @end titlepage
  
@@ -9,14 +9,18 @@ diff -Nru g-wrap-0.9.6/doc/g-wrap.texi g-wrap-0.9.6.new/doc/g-wrap.texi
 +@format
 +@dircategory Programming tools:
 +@direntry
-+* g-wrap: (g-wrap).			A tool for exporting C libraries into
-+					Scheme interpreters
++* g-wrap: (g-wrap).                    A tool for exporting C libraries into
++                                       Scheme interpreters
 +@end direntry
 +@end format
 +@end ifinfo
 +
  @node Top, Copying, (dir), (dir)
  @ifinfo
+ 
+@@ -49,7 +59,7 @@
+ SEE THE TOP LEVEL README FOR MORE INFO.  THIS DOCUMENTATION WILL BE
+ UPDATED LATER.
  
 -This is the reference manual for g-wrap
 +@top This is the reference manual for g-wrap
