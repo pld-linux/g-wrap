@@ -2,7 +2,7 @@ Summary:	A tool for exporting C libraries into Scheme interpreters
 Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
 Name:		g-wrap
 Version:	1.1.10
-Release:	4
+Release:	5
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
 %{_includedir}/*.h
-%{_infodir}/*
+%{_infodir}/*info*gz
 
 %files static
 %defattr(644,root,root,755)
