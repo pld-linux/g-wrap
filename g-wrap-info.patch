@@ -1,6 +1,7 @@
---- g-wrap-1.3.2/doc/g-wrap.texi.orig	Mon Jan  7 01:17:06 2002
-+++ g-wrap-1.3.2/doc/g-wrap.texi	Sun Jan 13 16:12:26 2002
-@@ -41,10 +41,20 @@
+diff -Nur g-wrap-1.1.10/doc/g-wrap.texi g-wrap-1.1.10.new/doc/g-wrap.texi
+--- g-wrap-1.1.10/doc/g-wrap.texi	Mon Dec 11 22:03:59 2000
++++ g-wrap-1.1.10.new/doc/g-wrap.texi	Thu May 17 12:06:00 2001
+@@ -41,6 +41,16 @@
  approved by the author.
  @end titlepage
  
@@ -17,7 +18,11 @@
  @node Top, Copying, (dir), (dir)
  @ifinfo
  
--This is the info manual for g-wrap, covering versions 1.1.*.
+@@ -49,7 +59,7 @@
+ SEE THE TOP LEVEL README FOR MORE INFO.  THIS DOCUMENTATION WILL BE
+ UPDATED LATER.
+ 
+-This is the reference manual for g-wrap
 +@top This is the reference manual for g-wrap
  
  @end ifinfo
