@@ -1,6 +1,5 @@
-diff -Nur g-wrap-1.1.10/doc/g-wrap.texi g-wrap-1.1.10.new/doc/g-wrap.texi
---- g-wrap-1.1.10/doc/g-wrap.texi	Mon Dec 11 22:03:59 2000
-+++ g-wrap-1.1.10.new/doc/g-wrap.texi	Thu May 17 12:06:00 2001
+--- g-wrap-1.2.1/doc/g-wrap.texi.orig	Wed Oct 10 07:03:27 2001
++++ g-wrap-1.2.1/doc/g-wrap.texi	Wed May 22 01:25:42 2002
 @@ -41,6 +41,16 @@
  approved by the author.
  @end titlepage
@@ -17,13 +16,4 @@ diff -Nur g-wrap-1.1.10/doc/g-wrap.texi g-wrap-1.1.10.new/doc/g-wrap.texi
 +
  @node Top, Copying, (dir), (dir)
  @ifinfo
- 
-@@ -49,7 +59,7 @@
- SEE THE TOP LEVEL README FOR MORE INFO.  THIS DOCUMENTATION WILL BE
- UPDATED LATER.
- 
--This is the reference manual for g-wrap
-+@top This is the reference manual for g-wrap
- 
- @end ifinfo
  
