@@ -7,7 +7,7 @@ Release:	1
 Epoch:		2
 License:	GPL
 Group:		Libraries
-Source0:	ftp://ftp.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
+Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 BuildRequires:	guile-devel >= 1.4
 BuildRequires:	texinfo
