@@ -3,7 +3,7 @@ Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
 Version:	1.3.4
-Release:	4
+Release:	5
 Epoch:		2
 License:	LGPL
 Group:		Libraries
@@ -11,6 +11,7 @@ Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
 # Source0-md5:	bf29b8b563cc27d9f7fd90a6243653aa
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac_am_cflags.patch
+Patch2:		%{name}-am18.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	glib-devel >= 1.0
@@ -73,6 +74,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
