@@ -1,5 +1,6 @@
-Summary:	A tool for exporting C libraries into Scheme interpreters
+Summary:	A utility for automatically generating glue code to export C libraries to Guile Scheme and RScheme.
 Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
+Summary(pt_BR):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme.
 Name:		g-wrap
 Version:	1.1.10
 Release:	5
@@ -12,7 +13,7 @@ Group(pl):	Biblioteki
 Group(pt_BR):	Bibliotecas
 Group(ru):	âÉÂÌÉÏÔÅËÉ
 Group(uk):	â¦ÂÌ¦ÏÔÅËÉ
-Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 BuildRequires:	guile-devel >= 1.4
 BuildRequires:	texinfo
@@ -29,9 +30,15 @@ To jest narzêdzie do specyfikowania typów, funkcji i sta³ych dla
 interpretera Scheme i generowania kodu (w C) do udostêpnienia ich dla
 interpreterów Guile i RScheme.
 
+%description -l pt_BR
+O g-wrap é uma ferramenta para especificar tipos, funções e constantes para
+importação em um interpretador scheme e para geração de código em C para fazer a
+interface com os interpretadores guile e rscheme.
+
 %package devel
 Summary:	Headers for developing programs using g-wrap
 Summary(pl):	Pliki nag³ówkowe do rozwijnia programów z u¿yciem g-wrap
+Summary(pt_BR):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -48,9 +55,13 @@ headers for developing programs using g-wrap.
 %description devel -l pl
 Pliki nag³ówkowe do rozwijania programów z u¿yciem g-wrap.
 
+%description devel -l pt_BR
+Arquivos de inclusao e bibliotecas para o g-wrap
+
 %package static
 Summary:	Static libraries for developing programs using g-wrap
 Summary(pl):	Biblioteki statyczne g-wrap
+Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com g-wrap
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
 Group(es):	Desarrollo/Bibliotecas
@@ -66,6 +77,9 @@ Static libraries for developing programs using g-wrap.
 
 %description static -l pl
 Statyczne biblioteki g-wrap.
+
+%description static -l pt_BR
+Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap
 
 %prep
 %setup -q
