@@ -1,14 +1,14 @@
-
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
 Version:	0.9.1
 Release:	1
 License:	GPL
 Group:		Libraries
+Group(fr):	Librairies
 Group(pl):	Biblioteki
-Source:		ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
-BuildRoot:      %{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-BuildRequires:	guile
+Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
+BuildRequires:	guile-devel
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This is a tool for specifying types, functions, and constants to
@@ -16,41 +16,41 @@ import into a Scheme interpreter, and for generating code (in C) to
 interface these to the Guile and RScheme interpreters in particular.
 
 %package devel
-Summary:        headers for developing programs using g-wrap
-Group:          Development/Libraries
-Group(pl):      Programowanie/Biblioteki
-Requires:       %{name} = %{version}
+Summary:	headers for developing programs using g-wrap
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
 
 %description devel
-headers for developing programs using g-wrap
+headers for developing programs using g-wrap.
 
 %package static
-Summary:        Static libraries for developing programs using g-wrap
-Summary(pl):    Biblioteki statyczne g-wrap
-Group:          Development/Libraries
-Group(pl):      Programowanie/Biblioteki
-Requires:       %{name}-devel = %{version}
+Summary:	Static libraries for developing programs using g-wrap
+Summary(pl):	Biblioteki statyczne g-wrap
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name}-devel = %{version}
 
 %description static
 Static libraries for developing programs using g-wrap.
- 
 
 %prep
 %setup -q
 
-
 %build
+LDFLAGS="-s"; export LDFLAGS
 %configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
+make install DESTDIR=$RPM_BUILD_ROOT
 
-strip --strip-all $RPM_BUILD_ROOT%{_bindir}/g-scan
 strip --strip-unneed $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 
-gzip -9nf $RPM_BUILD_ROOT%{_infodir}/* NEWS README 
+gzip -9nf $RPM_BUILD_ROOT%{_infodir}/* NEWS README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
