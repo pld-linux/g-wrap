@@ -39,7 +39,7 @@ Summary:	Headers for developing programs using g-wrap
 Summary(pl):	Pliki nag³ówkowe do rozwijnia programów z u¿yciem g-wrap
 Summary(pt_BR):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 headers for developing programs using g-wrap.
@@ -55,7 +55,7 @@ Summary:	Static libraries for developing programs using g-wrap
 Summary(pl):	Biblioteki statyczne g-wrap
 Summary(pt_BR):	Bibliotecas estáticas para desenvolvimento com g-wrap
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 Static libraries for developing programs using g-wrap.
