@@ -1,7 +1,7 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
 Version:	1.1.10
-Release:	2
+Release:	3
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -47,7 +47,7 @@ Static libraries for developing programs using g-wrap.
 %patch -p1
 
 %build
-%configure
+%configure2_13
 %{__make}
 
 %install
@@ -58,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 gzip -9nf NEWS README ChangeLog
 
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -79,7 +79,7 @@ gzip -9nf NEWS README ChangeLog
 
 %files devel
 %defattr(644,root,root,755)
-%doc {NEWS,README,ChangeLog}.gz
+%doc *.gz
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_libdir}/lib*.la
