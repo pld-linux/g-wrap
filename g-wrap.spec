@@ -10,7 +10,7 @@ Group:		Libraries
 Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac_am_cflags.patch
-BuildRequires:	guile-devel >= 1.4
+BuildRequires:	guile-devel >= 1.4.1
 BuildRequires:	texinfo
 BuildRequires:	slib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
