@@ -1,0 +1,22 @@
+--- g-wrap-1.1.10/test/Makefile.am.foo	Thu Jan 24 17:14:53 2002
++++ g-wrap-1.1.10/test/Makefile.am	Thu Jan 24 17:15:00 2002
+@@ -21,7 +21,7 @@
+ 
+ #BEGIN TEMP JUNK ============================================================
+ 
+-CFLAGS = -O2 -Werror -Wall -g -I../libruntime-guile @CFLAGS@
++CFLAGS = -Wall -I../libruntime-guile @CFLAGS@
+ 
+ #
+ ##I believe libtool won't allow this yet.
+--- g-wrap-1.2.1/test/Makefile.in.orig	Thu Oct 11 15:31:26 2001
++++ g-wrap-1.2.1/test/Makefile.in	Fri Jan 25 14:52:52 2002
+@@ -121,7 +121,7 @@
+ #EXTRA_DIST += .cvsignore
+ 
+ #BEGIN TEMP JUNK ============================================================
+-CFLAGS = -O2 -Werror -Wall -g -I../libruntime-guile @CFLAGS@
++CFLAGS = -Wall -I../libruntime-guile @CFLAGS@
+ libgw_test_parent_la_SOURCES = gw-test-parent.c gw-test-parent-code.c
+ libgw_test_parent_la_LDFLAGS = -rpath $(libdir) -module -export-dynamic
+ libgw_test_parent_la_LIBADD = ../libruntime-guile/libg-wrap-runtime-guile.la
