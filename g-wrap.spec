@@ -10,9 +10,12 @@ Group:		Libraries
 Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac_am_cflags.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	guile-devel >= 1.4.1
-BuildRequires:	texinfo
+BuildRequires:	libtool
 BuildRequires:	slib
+BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -68,8 +71,8 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %patch1 -p1
 
 %build
-libtoolize -c -f
-aclocal
+%{__libtoolize}
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure
@@ -80,8 +83,6 @@ aclocal
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-
-gzip -9nf NEWS README ChangeLog
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -97,6 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc NEWS README ChangeLog
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %attr(755,root,root) %{_libdir}/lib*.la
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
@@ -107,12 +109,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc *.gz
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
 %{_includedir}/*.h
-%{_infodir}/*info*gz
+%{_infodir}/*info*
 %{_aclocaldir}/*.m4
 
 %files static
