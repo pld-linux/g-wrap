@@ -102,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %{_libdir}/lib*.la
 %attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.la
+%{_datadir}/guile/g-wrapped/lib*.la
 %{_datadir}/guile/g-wrap
 %{_datadir}/guile/g-wrap.scm
 %{_datadir}/guile/g-wrapped/*.scm
