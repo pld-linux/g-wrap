@@ -1,13 +1,13 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
 Version:	0.9.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
-BuildRequires:	guile-devel
+BuildRequires:	guile-devel >= 1.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
