@@ -4,10 +4,13 @@ Version:	0.9.6
 Release:	1
 License:	GPL
 Group:		Libraries
+Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
+Patch0:		%{name}-info.patch
 BuildRequires:	guile-devel >= 1.4
+BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -18,6 +21,7 @@ interface these to the Guile and RScheme interpreters in particular.
 %package devel
 Summary:	headers for developing programs using g-wrap
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
@@ -29,6 +33,7 @@ headers for developing programs using g-wrap.
 Summary:	Static libraries for developing programs using g-wrap
 Summary(pl):	Biblioteki statyczne g-wrap
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name}-devel = %{version}
@@ -38,14 +43,15 @@ Static libraries for developing programs using g-wrap.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
-LDFLAGS="-s"; export LDFLAGS
 %configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 gzip -9nf NEWS README ChangeLog
