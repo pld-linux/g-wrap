@@ -2,15 +2,15 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.2.1
-Release:	2
+Version:	1.3.4
+Release:	1
 Epoch:		2
 License:	GPL
 Group:		Libraries
 Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
-# Source0-md5:	9406339bb3f04c08448f4bab3c537ce7
+# Source0-md5:	bf29b8b563cc27d9f7fd90a6243653aa
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-ac_am_cflags.patch
+#Patch1:		%{name}-ac_am_cflags.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	guile-devel >= 1.4.1
@@ -69,7 +69,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -103,22 +103,22 @@ rm -rf $RPM_BUILD_ROOT
 %doc NEWS README ChangeLog
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
 %{_libdir}/lib*.la
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
-%{_datadir}/guile/g-wrapped/lib*.la
+#%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
+#%{_datadir}/guile/g-wrapped/lib*.la
 %{_datadir}/guile/g-wrap
 %{_datadir}/guile/g-wrap.scm
-%{_datadir}/guile/g-wrapped/*.scm
+#%{_datadir}/guile/g-wrapped/*.scm
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/lib*.so
-%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
-%{_includedir}/*.h
+#%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
+#%{_includedir}/*.h
 %{_infodir}/*info*
 %{_aclocaldir}/*.m4
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
-%{_datadir}/guile/g-wrapped/lib*.a
+#%{_datadir}/guile/g-wrapped/lib*.a
