@@ -8,6 +8,7 @@ Epoch:		2
 License:	GPL
 Group:		Libraries
 Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
+# Source0-md5:	9406339bb3f04c08448f4bab3c537ce7
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-ac_am_cflags.patch
 BuildRequires:	autoconf
