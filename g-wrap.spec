@@ -1,7 +1,7 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
 Version:	1.1.10
-Release:	1
+Release:	2
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -58,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 gzip -9nf NEWS README ChangeLog
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -72,8 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so.*
 %{_datadir}/guile/g-wrap
 %{_datadir}/guile/g-wrap.scm
+%{_datadir}/guile/g-wrapped/*.scm
 
 %files devel
 %defattr(644,root,root,755)
@@ -81,9 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %{_libdir}/lib*.la
+%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.so
+%attr(755,root,root) %{_datadir}/guile/g-wrapped/lib*.la
 %{_includedir}/*.h
 %{_infodir}/*
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+%{_datadir}/guile/g-wrapped/lib*.a
