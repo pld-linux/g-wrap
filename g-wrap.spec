@@ -1,6 +1,6 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
-Version:	0.9.6
+Version:	1.1.10
 Release:	1
 License:	GPL
 Group:		Libraries
@@ -11,6 +11,7 @@ Source0:	ftp://ftp.gnucash.org/pub/g-wrap/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 BuildRequires:	guile-devel >= 1.4
 BuildRequires:	texinfo
+BuildRequires:	slib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -71,11 +72,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%attr(755,root,root) %{_bindir}/g-scan
-%attr(755,root,root) %{_bindir}/g-wrap
-%attr(755,root,root) %{_libexecdir}/*
-%{_datadir}/guile/site/g-wrap
-%{_datadir}/guile/site/g-wrap.scm
+%{_datadir}/guile/g-wrap
+%{_datadir}/guile/g-wrap.scm
 
 %files devel
 %defattr(644,root,root,755)
