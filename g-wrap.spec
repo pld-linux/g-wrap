@@ -70,8 +70,8 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %build
 libtoolize -c -f
 aclocal
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure
 
 %{__make}
