@@ -110,4 +110,4 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
--%{_datadir}/guile/g-wrapped/lib*.a
+%{_datadir}/guile/g-wrapped/lib*.a
