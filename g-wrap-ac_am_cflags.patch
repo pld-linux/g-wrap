@@ -1,0 +1,50 @@
+--- g-wrap-1.2.1/test/Makefile.am~	Thu Oct 11 21:31:24 2001
++++ g-wrap-1.2.1/test/Makefile.am	Mon May 20 23:12:03 2002
+@@ -28,7 +28,7 @@
+ 
+ #BEGIN TEMP JUNK ============================================================
+ 
+-CFLAGS = -O2 -Werror -Wall -g -I../libruntime-guile @CFLAGS@
++CFLAGS = -Werror -Wall -I../libruntime-guile @CFLAGS@
+ 
+ #
+ ##I believe libtool won't allow this yet.
+@@ -42,7 +42,7 @@
+ 
+ #  -L$(LOCALPWD)/../libruntime-guile/.libs -lg-wrap-runtime-guile
+ 
+-#  @GUILE_LIBS@ \
++#  @GUILE_LIBS@
+ 
+ 
+ #END TEMP JUNK ===============================================================
+--- g-wrap-1.2.1/g-wrapped/Makefile.am~	Wed Oct 10 07:20:44 2001
++++ g-wrap-1.2.1/g-wrapped/Makefile.am	Mon May 20 23:11:45 2002
+@@ -18,7 +18,7 @@
+ 
+ #BEGIN TEMP JUNK ============================================================
+ 
+-CFLAGS += -O2 -Wall -g -I../libruntime-guile @CFLAGS@
++CFLAGS += -Wall -I../libruntime-guile @CFLAGS@
+ 
+ #I believe libtool won't allow this yet.
+ #EXTRA_LTLIBRARIES=libruntime.la
+@@ -34,7 +34,7 @@
+ #  -L$(LOCALPWD)/../libruntime-guile/.libs -lg-wrap-runtime-guile
+ 
+ libgw_runtime_la_LIBADD = \
+-  @GUILE_LIBS@ \
++  @GUILE_LIBS@ -L$(LOCALPWD)/../libruntime-guile/.libs \
+   ../libruntime-guile/libg-wrap-runtime-guile.la
+ 
+ 
+--- g-wrap-1.2.1/configure.in~	Wed Oct 10 07:15:29 2001
++++ g-wrap-1.2.1/configure.in	Mon May 20 23:10:31 2002
+@@ -48,7 +48,6 @@
+     GUILE_LIBS='-lguile'
+   else
+     GUILE_LIBS=`$BUILD_GUILE link`
+-    CFLAGS="$CFLAGS `$BUILD_GUILE compile`"
+   fi
+   AC_CHECK_LIB(guile,scm_boot_guile,GUILE_SUPPORT='yes',[
+   AC_MSG_WARN(Can not find Guile on the system)
