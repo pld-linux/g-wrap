@@ -1,7 +1,7 @@
 Summary:	A tool for exporting C libraries into Scheme interpreters
 Name:		g-wrap
-Version:	0.9.1
-Release:	2
+Version:	0.9.5
+Release:	1
 License:	GPL
 Group:		Libraries
 Group(fr):	Librairies
@@ -47,8 +47,6 @@ LDFLAGS="-s"; export LDFLAGS
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-
-strip --strip-unneed $RPM_BUILD_ROOT%{_libdir}/lib*.so.*.*
 
 gzip -9nf $RPM_BUILD_ROOT%{_infodir}/* NEWS README
 
