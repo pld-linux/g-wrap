@@ -2,21 +2,21 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl):	Narzêdzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.3.4
-Release:	5
+Version:	1.9.6
+Release:	1
 Epoch:		2
 License:	LGPL
 Group:		Libraries
-Source0:	http://www.gnucash.org/pub/g-wrap/source/%{name}-%{version}.tar.gz
-# Source0-md5:	bf29b8b563cc27d9f7fd90a6243653aa
+Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
+# Source0-md5:	4d83964f51376500eedced538c1620cb
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-ac_am_cflags.patch
-Patch2:		%{name}-am18.patch
+Patch1:		%{name}-glib2.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	glib-devel >= 1.0
+BuildRequires:	glib2-devel
 BuildRequires:	guile-devel >= 1.4.1
 # guile-gtk for gtk wrappers
+BuildRequires:	libffi-devel
 BuildRequires:	libtool
 BuildRequires:	slib
 BuildRequires:	texinfo
@@ -74,14 +74,13 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal}
+#%{__libtoolize}
+#%{__aclocal}
 %{__autoconf}
-%{__autoheader}
-%{__automake}
+#%{__autoheader}
+#%{__automake}
 %configure
 
 %{__make}
@@ -110,37 +109,26 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog
-# libs
-%attr(755,root,root) %{_libdir}/libgwrap-glib.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgwrap-wct.so.*.*.*
-# modules (lt)dlopened by .so OR .la
-%attr(755,root,root) %{_libdir}/libgw-glib.so.*.*.*
-#%attr(755,root,root) %{_libdir}/libgw-gtk.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgw-standard.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgw-wct.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgw-glib.so
-#%attr(755,root,root) %{_libdir}/libgw-gtk.so
-%attr(755,root,root) %{_libdir}/libgw-standard.so
-%attr(755,root,root) %{_libdir}/libgw-wct.so
-%{_libdir}/libgw-glib.la
-#%{_libdir}/libgw-gtk.la
-%{_libdir}/libgw-standard.la
-%{_libdir}/libgw-wct.la
-%{_datadir}/guile/g-wrap
-%{_datadir}/guile/g-wrap.scm
+%attr(755,root,root) %{_prefix}/lib/libgw-guile-standard.so.*
+%attr(755,root,root) %{_prefix}/lib/libgwrap-core-runtime.so.*
+%attr(755,root,root) %{_prefix}/lib/libgwrap-guile-runtime.so.*
+/usr/share/guile/site/g-wrap
+/usr/share/guile/site/srfi
+%{_datadir}/info/g-wrap.info.gz
+
+
+
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/g-wrap-config
-%attr(755,root,root) %{_libdir}/libgwrap-glib.so
-%attr(755,root,root) %{_libdir}/libgwrap-wct.so
-%{_libdir}/libgwrap-glib.la
-%{_libdir}/libgwrap-wct.la
-%{_includedir}/g-wrap
-%{_infodir}/*.info*
-%{_aclocaldir}/*.m4
+/usr/include/g-wrap
+%{_prefix}/lib/libgw-guile-standard.la
+%{_prefix}/lib/libgwrap-core-runtime.la
+%{_prefix}/lib/libgwrap-guile-runtime.la
+%{_pkgconfigdir}/g-wrap-2.0-guile.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libgwrap-glib.a
-%{_libdir}/libgwrap-wct.a
+%{_prefix}/lib/libgwrap-guile-runtime.a
+%{_prefix}/lib/libgwrap-core-runtime.a
