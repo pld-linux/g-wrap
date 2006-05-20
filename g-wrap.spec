@@ -112,8 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_prefix}/lib/libgw-guile-standard.so.*
 %attr(755,root,root) %{_prefix}/lib/libgwrap-core-runtime.so.*
 %attr(755,root,root) %{_prefix}/lib/libgwrap-guile-runtime.so.*
-/usr/share/guile/site/g-wrap
-/usr/share/guile/site/srfi
+%{_datadir}/guile/site/g-wrap
+%{_datadir}/guile/site/srfi
+%{_datadir}/guile/site/g-wrap.scm
 %{_datadir}/info/g-wrap.info.gz
 
 
@@ -122,7 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/g-wrap-config
-/usr/include/g-wrap
+%{_includedir}/g-wrap
+%{_includedir}/g-wrap*.h
 %{_prefix}/lib/libgw-guile-standard.la
 %{_prefix}/lib/libgwrap-core-runtime.la
 %{_prefix}/lib/libgwrap-guile-runtime.la
