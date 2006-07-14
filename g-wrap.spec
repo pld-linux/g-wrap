@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+cp -a lib/srfi $RPM_BUILD_ROOT%{_datadir}/guile/site/srfi
+
 # modules
 rm -f $RPM_BUILD_ROOT%{_libdir}/libgw-*.a
 
@@ -106,8 +108,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog
 %attr(755,root,root) %{_libdir}/libgw-guile-standard.so.*.*.*
+%attr(755,root,root) %{_prefix}/lib/libgw-guile-gw-glib.so.*.*.*
 %attr(755,root,root) %{_libdir}/libgwrap-core-runtime.so.*.*.*
 %attr(755,root,root) %{_libdir}/libgwrap-guile-runtime.so.*.*.*
+
 %dir %{_datadir}/guile
 %dir %{_datadir}/guile/site
 %{_datadir}/guile/site/g-wrap
@@ -124,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgw-guile-standard.la
 %{_libdir}/libgwrap-core-runtime.la
 %{_libdir}/libgwrap-guile-runtime.la
+%{_prefix}/lib/libgw-guile-gw-glib.la
 %{_includedir}/g-wrap
 %{_includedir}/g-wrap*.h
 %{_pkgconfigdir}/g-wrap-2.0-guile.pc
