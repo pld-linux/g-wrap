@@ -6,7 +6,7 @@ diff -ur g-wrap-1.9.6-o/configure.ac g-wrap-1.9.6/configure.ac
  
  dnl Check for optional libraries
 -PKG_CHECK_MODULES(GLIB, glib, [have_glib=yes], [have_glib=no])
-+PKG_CHECK_MODULES(GLIB, glib2, [have_glib=yes], [have_glib=no])
++PKG_CHECK_MODULES(GLIB, glib-2.0, [have_glib=yes], [have_glib=no])
  AM_CONDITIONAL(HAVE_GLIB, test "$have_glib" = yes)
  
  dnl Check for compiler flags and warnings. This should be last, since
