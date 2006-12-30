@@ -1,12 +1,16 @@
-diff -ur g-wrap-1.9.6-o/configure.ac g-wrap-1.9.6/configure.ac
---- g-wrap-1.9.6-o/configure.ac	2005-04-14 08:57:01.000000000 -0600
-+++ g-wrap-1.9.6/configure.ac	2006-05-19 13:43:31.000000000 -0600
-@@ -95,7 +95,7 @@
- AM_CONDITIONAL(HAVE_SRFI_35, test "$HAVE_SRFI_35" = yes)
+--- g-wrap-1.9.7/configure.ac.orig	2006-11-05 14:57:30.000000000 +0100
++++ g-wrap-1.9.7/configure.ac	2006-12-30 02:10:17.463942711 +0100
+@@ -119,12 +119,7 @@
+ AC_SUBST(GW_LANGUAGES)
  
  dnl Check for optional libraries
--PKG_CHECK_MODULES(GLIB, glib, [have_glib=yes], [have_glib=no])
-+PKG_CHECK_MODULES(GLIB, glib-2.0, [have_glib=yes], [have_glib=no])
+-AC_CHECK_PROG(have_glib, glib-config, yes, no)
+-if test "$have_glib" = yes; then
+-  PKG_CHECK_MODULES(GLIB, glib, [echo building GLib 1.2 support])
+-else
+-  echo Not building Glib 1.2 support
+-fi
++PKG_CHECK_MODULES(GLIB, glib-2.0, [have_glib=yes; echo building GLib 2.0 support], [have_glib=no])
  AM_CONDITIONAL(HAVE_GLIB, test "$have_glib" = yes)
  
- dnl Check for compiler flags and warnings. This should be last, since
+ 
