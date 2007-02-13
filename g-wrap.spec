@@ -1,6 +1,6 @@
 Summary:	A utility for automatically generating glue code to export C libraries to Guile Scheme and RScheme
-Summary(pl.UTF-8):   Narzędzie do eksportowania bibliotek C do interpreterów Scheme
-Summary(pt_BR.UTF-8):   Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
+Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
+Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
 Version:	1.9.7
 Release:	1
@@ -40,8 +40,8 @@ C para fazer a interface com os interpretadores guile e rscheme.
 
 %package devel
 Summary:	Headers for developing programs using g-wrap
-Summary(pl.UTF-8):   Pliki nagłówkowe do rozwijnia programów z użyciem g-wrap
-Summary(pt_BR.UTF-8):   Arquivos de inclusão e bibliotecas para o g-wrap
+Summary(pl.UTF-8):	Pliki nagłówkowe do rozwijnia programów z użyciem g-wrap
+Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	guile-devel >= 5:1.8
@@ -57,8 +57,8 @@ Arquivos de inclusao e bibliotecas para o g-wrap.
 
 %package static
 Summary:	Static libraries for developing programs using g-wrap
-Summary(pl.UTF-8):   Biblioteki statyczne g-wrap
-Summary(pt_BR.UTF-8):   Bibliotecas estáticas para desenvolvimento com g-wrap
+Summary(pl.UTF-8):	Biblioteki statyczne g-wrap
+Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com g-wrap
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
