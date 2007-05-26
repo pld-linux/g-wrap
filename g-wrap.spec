@@ -2,18 +2,19 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.9.7
+Version:	1.9.8
 Release:	1
 Epoch:		2
 License:	LGPL
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
-# Source0-md5:	4e980fd3f464d53ecee12184569c32bf
+# Source0-md5:	b6deb04db3e1008f7d1db4ab7df594b2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-glib2.patch
+Patch2:		%{name}-srfi.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake
+BuildRequires:	automake >= 1.5
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	guile-devel >= 5:1.8
 BuildRequires:	libffi-devel
@@ -75,6 +76,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -92,7 +94,12 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# disappeared from g-wrap sources, but not present in guile 1.8.1
+install -D lib/srfi/srfi-35.scm $RPM_BUILD_ROOT%{_datadir}/guile/site/srfi/srfi-35.scm
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
+# example module, API not exported
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*miscutils*.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,6 +118,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
 %attr(755,root,root) %{_libdir}/libgwrap-core-runtime.so.*.*.*
 %attr(755,root,root) %{_libdir}/libgwrap-guile-runtime.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgw-guile-miscutils.so.*.*.*
+%attr(755,root,root) %{_libdir}/libmiscutils.so.*.*.*
 %dir %{_libdir}/g-wrap
 %dir %{_libdir}/g-wrap/modules
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-gw-glib.so*
@@ -119,7 +128,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/guile/site
 %{_datadir}/guile/site/g-wrap
 %dir %{_datadir}/guile/site/srfi
-# srfi-34.scm already in recent guile
 %{_datadir}/guile/site/srfi/srfi-35.scm
 %{_datadir}/guile/site/g-wrap.scm
 %{_infodir}/g-wrap.info*
