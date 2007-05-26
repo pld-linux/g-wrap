@@ -3,7 +3,7 @@ Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Sch
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
 Version:	1.9.8
-Release:	1
+Release:	2
 Epoch:		2
 License:	LGPL
 Group:		Libraries
