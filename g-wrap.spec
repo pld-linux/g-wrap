@@ -125,8 +125,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/g-wrap/modules
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-gw-glib.so*
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-standard.so*
-%dir %{_datadir}/guile
-%dir %{_datadir}/guile/site
 %{_datadir}/guile/site/g-wrap
 %dir %{_datadir}/guile/site/srfi
 %{_datadir}/guile/site/srfi/srfi-35.scm
