@@ -2,16 +2,14 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.9.8
-Release:	2
+Version:	1.9.9
+Release:	1
 Epoch:		2
-License:	LGPL
+License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
-# Source0-md5:	b6deb04db3e1008f7d1db4ab7df594b2
+# Source0-md5:	9014d7ed8d395ff335a6a4bf5778ed4e
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-glib2.patch
-Patch2:		%{name}-srfi.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
@@ -75,8 +73,6 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -95,12 +91,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# disappeared from g-wrap sources, but not present in guile 1.8.1
-install -D lib/srfi/srfi-35.scm $RPM_BUILD_ROOT%{_datadir}/guile/site/srfi/srfi-35.scm
+# not installed if already available (i.e. older g-wrap already installed!)
+install -D srfi/srfi-35.scm $RPM_BUILD_ROOT%{_datadir}/guile/site/srfi-35.scm
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
-# example module, API not exported
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*miscutils*.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,16 +113,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
 %attr(755,root,root) %{_libdir}/libgwrap-core-runtime.so.*.*.*
 %attr(755,root,root) %{_libdir}/libgwrap-guile-runtime.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgw-guile-miscutils.so.*.*.*
-%attr(755,root,root) %{_libdir}/libmiscutils.so.*.*.*
 %dir %{_libdir}/g-wrap
 %dir %{_libdir}/g-wrap/modules
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-gw-glib.so*
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-standard.so*
 %{_datadir}/guile/site/g-wrap
-%dir %{_datadir}/guile/site/srfi
-%{_datadir}/guile/site/srfi/srfi-35.scm
 %{_datadir}/guile/site/g-wrap.scm
+%{_datadir}/guile/site/srfi-35.scm
 %{_infodir}/g-wrap.info*
 
 %files devel
@@ -139,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgwrap-core-runtime.la
 %{_libdir}/libgwrap-guile-runtime.la
 %{_includedir}/g-wrap
-%{_includedir}/g-wrap*.h
+%{_includedir}/g-wrap-wct.h
 %{_pkgconfigdir}/g-wrap-2.0-guile.pc
 %{_aclocaldir}/g-wrap.m4
 
