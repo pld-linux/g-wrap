@@ -1,0 +1,4 @@
+- spec adapterized,
+- pass LDFLAGS="-s" to ./configure environment in %build instead strip
+  in %install,
+- switch from guile to guile-devel in BuildRequires.
