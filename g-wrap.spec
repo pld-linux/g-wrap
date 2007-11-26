@@ -3,23 +3,24 @@ Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Sch
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
 Version:	1.9.9
-Release:	1
+Release:	2
 Epoch:		2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
 # Source0-md5:	9014d7ed8d395ff335a6a4bf5778ed4e
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-srfi-35-fixes.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
 BuildRequires:	glib2-devel >= 2.0
-BuildRequires:	guile-devel >= 5:1.8
+BuildRequires:	guile-devel >= 5:1.8.3
 BuildRequires:	libffi-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	texinfo
-Requires:	guile > 5:1.8
+Requires:	guile >= 5:1.8.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,6 +74,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 %{__libtoolize}
@@ -90,9 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-# not installed if already available (i.e. older g-wrap already installed!)
-install -D srfi/srfi-35.scm $RPM_BUILD_ROOT%{_datadir}/guile/site/srfi-35.scm
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
 
@@ -119,7 +118,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-standard.so*
 %{_datadir}/guile/site/g-wrap
 %{_datadir}/guile/site/g-wrap.scm
-%{_datadir}/guile/site/srfi-35.scm
 %{_infodir}/g-wrap.info*
 
 %files devel
