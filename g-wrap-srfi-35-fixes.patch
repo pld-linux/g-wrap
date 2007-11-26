@@ -1,0 +1,420 @@
+# Bazaar revision bundle v0.9
+#
+# message:
+#   Use proper SRFI-35 constructs.
+#   
+# committer: Ludovic Courtes <address@hidden>
+# date: Sat 2007-09-01 13:22:34.372999907 +0200
+
+=== modified file ChangeLog
+2007-09-01  Ludovic Courtès  <address@hidden>
+
+	Use proper SRFI-35 constructs.
+
+	* g-wrap.scm (&gw-bad-typespec, &gw-bad-typespec-option,
+	&gw-name-conflict, &gw-stacked): Use `define-condition-type'
+	instead of `define-class'.
+	(gw-handle-condition): New, replacement for the set of
+	`handle-condition' methods.
+	(raise-bad-typespec, raise-bad-typespec-option, raise-stacked):
+	Specify all fields when invoking the `condition' macro, as
+	required per SRFI-35.
+	(make-typespec): Use `condition-has-type?' instead of `is-a?'.
+	(generate-wrapset): Use `gw-handle-condition' instead of
+	`handle-condition'.
+
+	* g-wrap/util.scm: Autoload `(g-wrap)'.
+	(&gw-bad-element): Use `define-condition-type'.
+	(guard/handle): Use `gw-handle-condition'.
+	(call-with-output-file/cleanup): Likewise.
+
+	* scheme48/g-wrap/scheme48.scm (generate-packages): Use
+	`gw-handle-condition'.
+
+=== modified file g-wrap.scm
+--- g-wrap.scm
++++ g-wrap.scm
+@@ -42,6 +42,7 @@
+   (&gw-bad-typespec
+    raise-bad-typespec
+    raise-stacked
++   gw-handle-condition
+    
+    <gw-item>
+    description
+@@ -101,49 +102,63 @@
+    get-wrapset generate-wrapset compute-client-types
+    ))
+ 
++
++;;;
+ ;;; Conditions
+-
+-(define-class &gw-bad-typespec (&error &message)
+-  (spec #:getter typespec-form #:init-value #f)
+-  (type #:getter type #:init-value #f)
+-  (options #:getter typespec-options #:init-value #f))
+-
+-(define-class &gw-bad-typespec-option (&error &message)
+-  (option #:getter typespec-option))
+-
+-(define-class &gw-name-conflict (&error &message)
+-  (name #:getter conflicting-name)
+-  (namespace #:getter conflict-namespace))
+-
+-(define-class &gw-stacked (&message)
+-  (next #:getter next-condition))
++;;;
++
++(define-condition-type &gw-bad-typespec &error
++  gw-bad-typespec-error?
++  (spec    bad-typespec-form)
++  (type    bad-typespec-type)
++  (options bad-typespec-options)
++  (message bad-typespec-message))
++
++(define-condition-type &gw-bad-typespec-option &error
++  gw-bad-typespec-option-error?
++  (option  bad-typespec-option)
++  (message bad-typespec-option-message))
++
++(define-condition-type &gw-name-conflict &error
++  gw-name-conflict-error?
++  (name        conflicting-name)
++  (namespace   conflicting-namespace)
++  (message     name-conflict-message))
++
++(define-condition-type &gw-stacked &error
++  gw-stacked-error?
++  (next    stacked-error-next-condition)
++  (message stacked-error-message))
+ 
+ (define-method (format-error msg . args)
+   (display "g-wrap: " (current-error-port))
+   (apply format (current-error-port) msg args)
+   (newline (current-error-port)))
+ 
+-(define-method (handle-condition (c &gw-stacked))
+-  (format-error "~A:" (condition-message c))
+-  (handle-condition (next-condition c)))
+-
+-(define-method (handle-condition (c &gw-bad-typespec))
+-  (cond
+-   ((type c)
+-    (format-error "bad typespec `~A ~A': ~A"
+-                  (type c) (typespec-options c) (condition-message c)))
+-   (else
+-    (format-error "bad typespec `~A': ~A" (typespec-form c)
+-                  (condition-message c)))))
+-
+-(define-method (handle-condition (c &gw-bad-element))
+-  (format-error "bad element ~S in tree ~S" (element c) (tree c)))
+-
+-(define-method (handle-condition (c &gw-name-conflict))
+-  (format-error "name conflict: ~A in namespace ~A: ~A"
+-                (conflicting-name c) (conflict-namespace c)
+-                (condition-message c)))
+-
++(define (gw-handle-condition c)
++  (cond ((condition-has-type? c &gw-stacked)
++         (format-error "~A:" (gw-stacked-error-message c))
++         (gw-handle-condition (stacked-error-next-condition c)))
++        ((condition-has-type? c &gw-bad-typespec)
++         (cond
++          ((bad-typespec-type c)
++           (format-error "bad typespec `~A ~A': ~A"
++                         (type c) (typespec-options c) (bad-typespec-message c)))
++          (else
++           (format-error "bad typespec `~A': ~A" (bad-typespec-form c)
++                         (bad-typespec-message c)))))
++        ((gw-bad-element-error? c)
++         (format-error "bad element ~S in tree ~S"
++                       (bad-element c) (bad-element-tree c)))
++        ((gw-name-conflict-error? c)
++         (format-error "name conflict: ~A in namespace ~A: ~A"
++                       (conflicting-name c) (conflict-namespace c)
++                       (name-conflict-message c)))
++        (else
++         (format-error "unhandled error condition: ~A" c))))
++
++
++
+ ;;;
+ 
+ ;; An <gw-item> is "something" that shows up in the generated
+@@ -202,31 +217,38 @@
+                              (symbol->string
+                               (name type))) "_" suffix)))
+ 
++
++;;;
++;;; Raising error conditions
++;;;
++
+ ;; Here because needs <gw-type>
+ (define-method (raise-bad-typespec type (options <list>) (msg <string>) . args)
+   (raise (condition
+           (&gw-bad-typespec
+-           (type type) (options options)
++           (spec #f) (type type) (options options)
+            (message (apply format #f msg args))))))
+ 
+ (define-method (raise-bad-typespec spec (msg <string>) . args)
+   (raise (condition
+           (&gw-bad-typespec
+-           (spec spec)
++           (spec spec) (type #f) (options #f)
+            (message (apply format #f msg args))))))
+ 
+ (define-method (raise-bad-typespec-option option (msg <string>) . args)
+   (raise (condition
+           (&gw-bad-typespec-option
+-           (option option)
++           (spec #f) (type #f) (option option)
+            (message (apply format #f msg args))))))
+ 
+-(define-method (raise-stacked (next &condition) (msg <string>) . args)
++(define-method (raise-stacked next (msg <string>) . args)
++  ;; NEXT should be a condition.
+   (raise (condition
+           (&gw-stacked
+            (next next)
+            (message (apply format #f msg args))))))
+-  
++
++
+ ;;;
+ ;;; Values
+ ;;;
+@@ -367,10 +389,10 @@
+   (check-typespec-options type options)
+   (guard
+    (c
+-    ((is-a? c &gw-bad-typespec-option)
++    ((condition-has-type? c &gw-bad-typespec-option)
+      (raise-bad-typespec type options "bad typespec option ~S: ~A"
+-                         (typespec-option c)
+-                         (condition-message c))))
++                         (bad-typespec-option c)
++                         (bad-typespec-message c))))
+    (let ((typespec (make <gw-typespec> #:type type)))
+      (for-each (lambda (opt) (parse-typespec-option! typespec type opt))
+                options)
+@@ -799,7 +821,7 @@
+   (let ((had-error? #f))
+     (guard
+      (c
+-      (#t (handle-condition c)
++      (#t (gw-handle-condition c)
+           (set! had-error? #t)))
+      (generate-wrapset lang (get-wrapset lang name) basename))
+     (if had-error?
+
+=== modified file g-wrap/util.scm
+--- g-wrap/util.scm
++++ g-wrap/util.scm
+@@ -32,10 +32,14 @@
+   #:use-module (srfi srfi-34)
+   #:use-module (srfi srfi-35)
+   #:use-module (oop goops)
+-  
++
++  ;; XXX: This introduces a circular dependency, but `autoload' allows us to
++  ;; work around it.
++  #:autoload   (g-wrap)       (gw-handle-condition)
++
+   #:export
+-  (&gw-bad-element
+-   element tree
++  (&gw-bad-element gw-bad-element-error?
++   bad-element bad-element-tree
+ 
+    call-with-output-file/cleanup
+    slot-push!
+@@ -51,15 +55,16 @@
+ 
+ ;;; Condition stuff
+ 
+-(define-class &gw-bad-element (&error)
+-  (element #:getter element)
+-  (tree #:getter tree))
++(define-condition-type &gw-bad-element &error
++  gw-bad-element-error?
++  (element  bad-element)
++  (tree     bad-element-tree))
+ 
+ (define-macro (guard/handle . body)
+   (let ((cond-name (gensym)))
+     `(guard
+       (,cond-name
+-       (else (handle-condition ,cond-name)))
++       (else (gw-handle-condition ,cond-name)))
+       ,@body)))
+ 
+ ;;; General utilities
+@@ -77,7 +82,7 @@
+          (c
+           ((condition-has-type? c &error)
+            (set! had-errors? #t)
+-           (handle-condition c)))
++           (gw-handle-condition c)))
+          
+          (call-with-output-file file-name proc)))
+          
+
+=== modified file scheme48/g-wrap/scheme48.scm
+--- scheme48/g-wrap/scheme48.scm
++++ scheme48/g-wrap/scheme48.scm
+@@ -240,7 +240,7 @@
+         (basedir (dirname filename)))
+     (guard
+      (c
+-      (#t (handle-condition c)
++      (#t (gw-handle-condition c)
+           (set! had-error? #t)))
+      (let ((wrapsets (map (lambda (name) (get-wrapset 'scheme48 name)) ws-names)))
+        (call-with-output-file/cleanup filename
+
+=== modified directory  // last-changed:address@hidden
+... 78u
+# revision id: address@hidden
+# sha1: a24de442febbd27e80362272657453807bcdbbff
+# inventory sha1: 5c6c33a5e2bf2627ed7c2c582d96daa3ccda72a3
+# parent ids:
+#   address@hidden
+# base id: address@hidden
+# properties:
+#   branch-nick: g-wrap
+
+# Bazaar revision bundle v0.9
+#
+# message:
+#   Error condition fixes and linting in `g-wrap.scm'.
+# committer: Ludovic Courtes <address@hidden>
+# date: Sat 2007-09-01 15:52:51.880000114 +0200
+
+=== modified file ChangeLog
+ 2007-09-01  Ludovic Courtès  <address@hidden>
+ 
+	* g-wrap.scm (g-wrap): Don't use `srfi-11', don't export
+	`provide-type-class!' (unbound), export the condition type
+	predicates.
+	(gw-handle-condition): Fixed typos, handle
+	`gw-bad-typespec-option-error?' properly.
+	(raise-bad-typespec-option): Don't provide initializers for
+	`spec' and `type'.
+	(for-each-function): Removed.
+	(wrap-type!): Use `format-error' instead of `error'.
+
+=== modified file g-wrap.scm
+--- g-wrap.scm
++++ g-wrap.scm
+@@ -33,13 +33,14 @@
+   #:use-module (ice-9 pretty-print)
+   #:use-module (oop goops)
+   #:use-module (srfi srfi-1)
+-  #:use-module (srfi srfi-11)
+   #:use-module (srfi srfi-34)
+   #:use-module (srfi srfi-35)
+   #:use-module (g-wrap util)
+   
+   #:export
+   (&gw-bad-typespec
++   gw-bad-typespec-error? gw-bad-typespec-option-error?
++   gw-stacked-error? gw-name-conflict-error?
+    raise-bad-typespec
+    raise-stacked
+    gw-handle-condition
+@@ -93,10 +94,9 @@
+    
+    add-item! add-type! add-constant! add-function!
+    add-client-item!
+-   
+-   provide-type-class!
++
+    defines-generic?
+-   
++
+    wrap-type! wrap-function! wrap-constant!
+ 
+    get-wrapset generate-wrapset compute-client-types
+@@ -130,29 +130,35 @@
+   (next    stacked-error-next-condition)
+   (message stacked-error-message))
+ 
++
+ (define-method (format-error msg . args)
+   (display "g-wrap: " (current-error-port))
+   (apply format (current-error-port) msg args)
+   (newline (current-error-port)))
+ 
+ (define (gw-handle-condition c)
+-  (cond ((condition-has-type? c &gw-stacked)
+-         (format-error "~A:" (gw-stacked-error-message c))
++  (cond ((gw-stacked-error? c)
++         (format-error "~A:" (stacked-error-message c))
+          (gw-handle-condition (stacked-error-next-condition c)))
+-        ((condition-has-type? c &gw-bad-typespec)
++        ((gw-bad-typespec-error? c)
+          (cond
+           ((bad-typespec-type c)
+            (format-error "bad typespec `~A ~A': ~A"
+-                         (type c) (typespec-options c) (bad-typespec-message c)))
++                         (type c) (bad-typespec-options c)
++                         (bad-typespec-message c)))
+           (else
+            (format-error "bad typespec `~A': ~A" (bad-typespec-form c)
+                          (bad-typespec-message c)))))
++        ((gw-bad-typespec-option-error? c)
++         (format-error "bad typespec option: ~A: ~A"
++                       (bad-typespec-option c)
++                       (bad-typespec-option-message c)))
+         ((gw-bad-element-error? c)
+          (format-error "bad element ~S in tree ~S"
+                        (bad-element c) (bad-element-tree c)))
+         ((gw-name-conflict-error? c)
+          (format-error "name conflict: ~A in namespace ~A: ~A"
+-                       (conflicting-name c) (conflict-namespace c)
++                       (conflicting-name c) (conflicting-namespace c)
+                        (name-conflict-message c)))
+         (else
+          (format-error "unhandled error condition: ~A" c))))
+@@ -238,7 +244,7 @@
+ (define-method (raise-bad-typespec-option option (msg <string>) . args)
+   (raise (condition
+           (&gw-bad-typespec-option
+-           (spec #f) (type #f) (option option)
++           (option option)
+            (message (apply format #f msg args))))))
+ 
+ (define-method (raise-stacked next (msg <string>) . args)
+@@ -681,9 +687,6 @@
+ (define-method (fold-functions kons knil (ws <gw-wrapset>))
+   (fold kons knil (reverse (slot-ref ws 'functions))))
+ 
+-(define-method (for-each-function proc (ws <gw-wrapset>))
+-  (for-each proc (reverse (slot-ref ws 'functions))))
+-
+ (define-method (consider-types? (wrapset <gw-wrapset>) (item <gw-item>))
+   #t)
+ 
+@@ -746,7 +749,7 @@
+   (let ((class (hashq-ref (class-slot-ref
+                            (class-of wrapset) 'type-classes) class-name)))
+     (if (not class)
+-        (error "unknown type class ~S" class-name)) ;; FIXME: better handling
++        (format-error "unknown type class ~S" class-name)) ;; FIXME: better handling
+     (add-type! wrapset (apply make class args))))
+ 
+ (define-method (wrap-function! (wrapset <gw-wrapset>) . args)
+
+=== modified directory  // last-changed:address@hidden
+... s51
+# revision id: address@hidden
+# sha1: c5134d678b6211ff4f5356dbec6c5bfd2b98efc7
+# inventory sha1: 5fb72eb7784cab95dfade3d4a24f0ce3decc3e39
+# parent ids:
+#   address@hidden
+# base id: address@hidden
+# properties:
+#   branch-nick: g-wrap
