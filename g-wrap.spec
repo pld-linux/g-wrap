@@ -2,21 +2,20 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.9.9
-Release:	2
+Version:	1.9.11
+Release:	1
 Epoch:		2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
-# Source0-md5:	9014d7ed8d395ff335a6a4bf5778ed4e
+# Source0-md5:	f6f54c2a2ce3d8257ccaf19f923cbe45
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-srfi-35-fixes.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	guile-devel >= 5:1.8.3
-BuildRequires:	libffi-devel
+BuildRequires:	libffi-devel >= 7:3.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	texinfo
@@ -45,6 +44,7 @@ Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	guile-devel >= 5:1.8
+Requires:	libffi-devel >= 7:3.0
 
 %description devel
 headers for developing programs using g-wrap.
@@ -74,7 +74,6 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p0
 
 %build
 %{__libtoolize}
@@ -101,17 +100,19 @@ rm -rf $RPM_BUILD_ROOT
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%post devel	-p	/sbin/postshell
+%post	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun devel	-p	/sbin/postshell
+%postun	devel -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
 %attr(755,root,root) %{_libdir}/libgwrap-core-runtime.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgwrap-core-runtime.so.2
 %attr(755,root,root) %{_libdir}/libgwrap-guile-runtime.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgwrap-guile-runtime.so.2
 %dir %{_libdir}/g-wrap
 %dir %{_libdir}/g-wrap/modules
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-gw-glib.so*
