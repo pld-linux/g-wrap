@@ -10,6 +10,7 @@ Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
 # Source0-md5:	f6f54c2a2ce3d8257ccaf19f923cbe45
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-pc.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
@@ -74,6 +75,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
