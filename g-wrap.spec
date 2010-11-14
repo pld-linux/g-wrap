@@ -2,15 +2,14 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.9.11
-Release:	2
+Version:	1.9.13
+Release:	1
 Epoch:		2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
-# Source0-md5:	f6f54c2a2ce3d8257ccaf19f923cbe45
+# Source0-md5:	5952a389fd00f123dfb86d269a1d6d67
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-pc.patch
 URL:		http://www.nongnu.org/g-wrap/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
@@ -75,7 +74,6 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -94,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -121,7 +119,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/g-wrap/modules/libgw-guile-standard.so*
 %{_datadir}/guile/site/g-wrap
 %{_datadir}/guile/site/g-wrap.scm
-%{_infodir}/g-wrap.info*
 
 %files devel
 %defattr(644,root,root,755)
@@ -134,6 +131,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/g-wrap-wct.h
 %{_pkgconfigdir}/g-wrap-2.0-guile.pc
 %{_aclocaldir}/g-wrap.m4
+%{_mandir}/man1/g-wrap-config.1*
+%{_infodir}/g-wrap.info*
 
 %files static
 %defattr(644,root,root,755)
