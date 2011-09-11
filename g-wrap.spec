@@ -3,7 +3,7 @@ Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Sch
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
 Version:	1.9.13
-Release:	2
+Release:	3
 Epoch:		2
 License:	LGPL v2.1+
 Group:		Libraries
@@ -15,7 +15,7 @@ BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.5
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	guile-devel >= 5:1.8.3
-BuildRequires:	libffi-devel >= 7:3.0
+BuildRequires:	libffi-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	texinfo
@@ -44,7 +44,7 @@ Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	guile-devel >= 5:1.8
-Requires:	libffi-devel >= 7:3.0
+Requires:	libffi-devel
 
 %description devel
 headers for developing programs using g-wrap.
