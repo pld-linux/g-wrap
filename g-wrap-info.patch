@@ -12,3 +12,12 @@
  @end direntry
  
  @iftex
+@@ -1070,7 +1070,7 @@
+ available in @xref{Creating a Wrapper Module}.
+ 
+ 
+-@unnumbered The @code{aggregated} Type Qualifier
++@unnumberedsubsubsec The @code{aggregated} Type Qualifier
+ 
+ @cindex memory management
+ @cindex aggregated object
