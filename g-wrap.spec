@@ -85,7 +85,7 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %configure \
 	--disable-Werror
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
