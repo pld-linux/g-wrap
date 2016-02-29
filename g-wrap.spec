@@ -2,25 +2,25 @@ Summary:	A utility for automatically generating glue code to export C libraries 
 Summary(pl.UTF-8):	Narzędzie do eksportowania bibliotek C do interpreterów Scheme
 Summary(pt_BR.UTF-8):	Um utilitário para geração automática de código para exportar bibliotecas C para guile scheme e rscheme
 Name:		g-wrap
-Version:	1.9.14
-Release:	4
+Version:	1.9.15
+Release:	1
 Epoch:		2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://download.savannah.gnu.org/releases/g-wrap/%{name}-%{version}.tar.gz
-# Source0-md5:	fef7ec5e2ff5192221ed6e97fe93bcb9
+# Source0-md5:	037d465a28782636a995cf0179f1d7ff
 Patch0:		%{name}-info.patch
 URL:		http://www.nongnu.org/g-wrap/
-BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake >= 1.5
+BuildRequires:	autoconf >= 2.61
+BuildRequires:	automake >= 1:1.12
 BuildRequires:	glib2-devel >= 2.0
-BuildRequires:	guile-devel >= 5:1.8.3
+BuildRequires:	guile-devel >= 5:2.0
 BuildRequires:	libffi-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	texinfo
-Requires:	guile >= 5:1.8.3
+Requires:	guile >= 5:2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -44,7 +44,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe do rozwijnia programów z użyciem g-wrap
 Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas para o g-wrap
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	guile-devel >= 5:1.8.3
+Requires:	guile-devel >= 5:2.0
 Requires:	libffi-devel
 
 %description devel
@@ -93,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgwrap-*.la
+# dlopened modules
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/g-wrap/modules/libgw-*.{a,la}
 
 %clean
@@ -126,8 +129,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/g-wrap-config
 %attr(755,root,root) %{_libdir}/libgwrap-core-runtime.so
 %attr(755,root,root) %{_libdir}/libgwrap-guile-runtime.so
-%{_libdir}/libgwrap-core-runtime.la
-%{_libdir}/libgwrap-guile-runtime.la
 %{_includedir}/g-wrap
 %{_includedir}/g-wrap-wct.h
 %{_pkgconfigdir}/g-wrap-2.0-guile.pc

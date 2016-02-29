@@ -1,23 +1,14 @@
---- g-wrap-1.9.8/doc/g-wrap.texi.orig	2006-11-25 19:49:08.000000000 +0100
-+++ g-wrap-1.9.8/doc/g-wrap.texi	2007-05-26 09:41:31.697547850 +0200
-@@ -7,9 +7,9 @@
- @paragraphindent 0
- @c %**end of header
+--- g-wrap-1.9.15/doc/g-wrap.texi.orig	2016-02-28 22:21:01.841041559 +0100
++++ g-wrap-1.9.15/doc/g-wrap.texi	2016-02-29 15:57:39.195047706 +0100
+@@ -26,9 +26,9 @@
+ @end copying
+ 
  
 -@dircategory Libraries
 +@dircategory Libraries:
  @direntry
--* G-Wrap: (g-wrap). Scheme wrapper for C libraries
-+* G-Wrap: (g-wrap).			Scheme wrapper for C libraries
+-* G-Wrap Reference: (g-wrap).  Scheme wrapper for C libraries
++* G-Wrap Reference: (g-wrap).		Scheme wrapper for C libraries
  @end direntry
  
- @iftex
-@@ -1070,7 +1070,7 @@
- available in @xref{Creating a Wrapper Module}.
- 
- 
--@unnumbered The @code{aggregated} Type Qualifier
-+@unnumberedsubsubsec The @code{aggregated} Type Qualifier
- 
- @cindex memory management
- @cindex aggregated object
+ @c Choices for setchapternewpage are {on,off,odd}.
