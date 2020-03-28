@@ -83,7 +83,8 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 %{__autoheader}
 %{__automake}
 %configure \
-	--disable-Werror
+	--disable-Werror \
+	--disable-silent-rules
 
 %{__make} -j1
 
