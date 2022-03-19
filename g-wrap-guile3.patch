@@ -1,0 +1,71 @@
+--- g-wrap-1.9.15/configure.ac.orig	2015-07-21 01:23:34.000000000 +0200
++++ g-wrap-1.9.15/configure.ac	2022-03-19 09:47:32.034820854 +0100
+@@ -78,7 +78,7 @@ AC_DEFINE_UNQUOTED(ffi_type_ssize_t, ffi
+ 		   [ffi type for ssize_t])
+ 
+ dnl Guile
+-GUILE_PKG([2.2 2.0])
++GUILE_PKG([3.0 2.2 2.0])
+ GUILE_PROGS
+ GUILE_FLAGS
+ GUILE_VERSION="`guile-config info guileversion | sed -r 's,\\.[[0-9]]+$,,'`"
+--- g-wrap-1.9.15/guile/g-wrap/guile-runtime.c.orig	2014-09-22 06:42:47.000000000 +0200
++++ g-wrap-1.9.15/guile/g-wrap/guile-runtime.c	2022-03-19 14:09:17.473070527 +0100
+@@ -179,14 +179,14 @@ gw_guile_add_subr_method (SCM generic, S
+         SCM var = scm_module_lookup (module, class_name);
+         specializers = scm_cons (SCM_VARIABLE_REF (var), specializers);
+     } else {
+-        specializers = scm_cons (scm_class_top, specializers);
++        specializers = scm_cons (scm_variable_ref (scm_c_lookup ("<top>")), specializers);
+     }
+     all_specializers = SCM_CDR (all_specializers);
+   }
+   specializers = scm_reverse (specializers);
+   
+   if (use_optional_args)
+-    specializers = scm_append_x (scm_list_2 (specializers, scm_class_top));
++    specializers = scm_append_x (scm_list_2 (specializers, scm_variable_ref (scm_c_lookup ("<top>"))));
+   
+   formals = SCM_EOL;
+   for (i = n_req_args; i > 0; i--)
+@@ -222,7 +222,7 @@ gw_guile_add_subr_method (SCM generic, S
+ #endif
+ 
+   meth = scm_apply_0 (SCM_VARIABLE_REF (var_make),
+-                      scm_list_5 (scm_class_method,
++                      scm_list_5 (scm_variable_ref (scm_c_lookup ("<method>")),
+                                   k_specializers, specializers,
+                                   k_procedure, procm));
+   scm_call_2 (SCM_VARIABLE_REF (var_add_method_x), generic, meth);
+@@ -352,10 +352,10 @@ allocate_generic_variable (SCM module, S
+   if (scm_is_false (var)) {
+     /* Symbol unbound, make a new generic */
+     generic = scm_apply_0 (SCM_VARIABLE_REF (var_make),
+-                           scm_list_3 (scm_class_generic, k_name, sym));
++                           scm_list_3 (scm_variable_ref (scm_c_lookup("<generic>")), k_name, sym));
+     return scm_make_variable (generic);
+   } else if (scm_is_true (scm_call_2 (is_a_p_proc, scm_variable_ref (var),
+-                                      scm_class_generic))) {
++                                      (scm_variable_ref (scm_c_lookup("<generic>")))))) {
+     /* I seem to remember theq is_a_p thing is a hack around GOOPS's deficient
+        macros, but I don't remember. Anyway the existing binding is a generic,
+        let's use it */
+@@ -364,7 +364,7 @@ allocate_generic_variable (SCM module, S
+     /* Make a generic that falls back on the original binding. NB: generics also
+        satisfy procedure?. */
+     generic = scm_apply_0 (SCM_VARIABLE_REF (var_make),
+-                           scm_list_5 (scm_class_generic,
++                           scm_list_5 ((scm_variable_ref (scm_c_lookup("<generic>"))),
+                                        k_name, sym,
+                                        k_default, scm_variable_ref (var)));
+     return scm_make_variable (generic);
+@@ -756,7 +756,8 @@ gw_guile_handle_wrapper_error(GWLangAren
+       scm_misc_error(func_name, error->message, *(SCM *)error->data);
+       break;
+     case GW_ERR_MEMORY:
+-      scm_memory_error(func_name);
++      fprintf (stderr, "FATAL: memory error in %s\n", func_name);
++      abort ();
+       break;
+     case GW_ERR_RANGE:
+       scm_error (out_of_range_key,
