@@ -75,8 +75,8 @@ Bibliotecas estáticas para desenvolvimento com a biblioteca g-wrap.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__libtoolize}
